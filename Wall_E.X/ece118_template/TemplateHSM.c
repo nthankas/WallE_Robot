@@ -49,7 +49,6 @@ uint8_t InitHSM(uint8_t Priority)
 {
     MyPriority = Priority;
     CurrentState = InitPState;
-    //printf("InitHSM: Setting initial state to %s\n", StateNames[CurrentState]);
 
     if (ES_PostToService(MyPriority, INIT_EVENT) == TRUE) {
         printf("InitHSM: Posted INIT_EVENT to HSM\n");
@@ -71,10 +70,8 @@ ES_Event RunHSM(ES_Event ThisEvent) {
     ES_Event returnEvent;
 
     ES_Tattle();
-    //printf("RunHSM(%s[%s,%X]);\n", StateNames[CurrentState],
-           //EventNames[ThisEvent.EventType], ThisEvent.EventParam);
 
-    
+    // tracks which field to service next: center(1) -> left(2) -> right(5) -> end
     static uint8_t stage = 1;
 
         switch (CurrentState) {

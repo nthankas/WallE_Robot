@@ -90,9 +90,8 @@ ES_Event RunBlueFlowSubHSM(ES_Event ThisEvent)
                     break;
 
                 case ES_TIMEOUT:
-                    nextState = MoveForward;
                     ServoGrab(1);
-                    printf("\n\nSERVO RELEASE TRIGGER");
+                    nextState = MoveForward;
                     makeTransition = TRUE;
                     break;
 
@@ -237,7 +236,6 @@ ES_Event RunBlueFlowSubHSM(ES_Event ThisEvent)
                     RightMotor_SetSpeed(0);
                     returnEvent.EventType = BLUE_FLOW_DONE;
                     return returnEvent;
-                    break;
 
                 case ES_EXIT:
                     break;
@@ -253,7 +251,6 @@ ES_Event RunBlueFlowSubHSM(ES_Event ThisEvent)
                     LeftMotor_SetSpeed(0);
                     returnEvent.EventType = BLUE_FLOW_DONE;
                     return returnEvent;
-                    break;
 
                 case ES_EXIT:
                     break;

@@ -65,8 +65,9 @@ void __ISR(_INPUT_CAPTURE_2_VECTOR, IPL5AUTO) IC2InterruptHandler(void) {
     }
     if (PORTDbits.RD9 == 0) {  // Falling edge 
         fallingEdge = (0xFFFF & IC2BUF);  
-        timeDiff = fallingEdge - risingEdge;  // Compute pulse width
-        dist = ((343 * 2 * timeDiff) / (20000));  // Approx. distance in cm
+        timeDiff = fallingEdge - risingEdge;
+        // distance in cm: speed of sound * round-trip time, scaled for timer prescaler
+        dist = ((343 * 2 * timeDiff) / (20000));
     }
     IFS0bits.IC2IF = 0;
 }

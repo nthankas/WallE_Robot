@@ -19,7 +19,7 @@ void main(void)
     // Initialize critical hardware
     Motor_Init();
     Servo_Init();
-//    PingSensor_Init();     // Uses IC2 + Timer3
+    // PingSensor initialized via PingService
     ColorSensor_Init();    // Uses IC3 + Timer3
     IRSensor_Init();       // Uses RE6/RE7 as digital inputs
 

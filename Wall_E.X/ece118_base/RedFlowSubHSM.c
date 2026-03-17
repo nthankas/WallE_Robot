@@ -4,7 +4,6 @@
 #include "BOARD.h"
 #include "TemplateHSM.h"
 #include "RedFlowSubHSM.h"
-//#include "GrabSubHSM.h"
 #include "Actuators.h"
 #include "ES_Timers.h"
 
@@ -59,7 +58,7 @@ uint8_t InitRedFlowSubHSM(void)
 {
     ES_Event returnEvent;
     CurrentState = InitPRedFlowSubState;
-    printf("InitApproachSubHSM: State set to %s\n", StateNames[CurrentState]);
+    printf("InitRedFlowSubHSM: State set to %s\n", StateNames[CurrentState]);
     returnEvent = RunRedFlowSubHSM(INIT_EVENT);
     return (returnEvent.EventType == ES_NO_EVENT);
 }
@@ -84,7 +83,7 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
                 }
                 makeTransition = TRUE;
                 ThisEvent.EventType = ES_NO_EVENT;
-                printf("Transition: InitPSubApproachState -> DriveForwardState\n");
+                printf("Transition: InitPRedFlowSubState -> %s\n", (color == COLOR_DETECTED_GREEN) ? "ReForward" : "TurnLeft");
             }
             break;
 
@@ -114,15 +113,10 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
         case DropRed:
             switch (ThisEvent.EventType) {
                 case ES_ENTRY:
-//                    LeftMotor_SetSpeed(STRAIGHT_SPEED);
-//                    RightMotor_SetSpeed(STRAIGHT_SPEED);
-//                    printf("Entering DropRed\n");
                     ES_Timer_InitTimer(RED_TIMER, RED_TURN_TIME);
                     break;
 
                 case ES_TIMEOUT:
-//                    LeftMotor_SetSpeed(0);
-//                    RightMotor_SetSpeed(0);
                     nextState = MoveForward;
                     makeTransition = TRUE;
                     break;
@@ -137,7 +131,7 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
                 case ES_ENTRY:
                     LeftMotor_SetSpeed(STRAIGHT_SPEED);
                     RightMotor_SetSpeed(STRAIGHT_SPEED);
-                    printf("LEaving item\n");
+                    printf("MoveForward: driving away from drop\n");
                     ES_Timer_InitTimer(RED_TIMER, BACK_DELAY);
                     break;
 
@@ -159,7 +153,7 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
                 case ES_ENTRY:
                     LeftMotor_SetSpeed(-STRAIGHT_SPEED);
                     RightMotor_SetSpeed(-STRAIGHT_SPEED);
-                    printf("Leaving part 2 item\n");
+                    printf("MoveBack: reversing to clear drop zone\n");
                     ES_Timer_InitTimer(RED_TIMER, DROP_DELAY);
                     break;
 
@@ -197,29 +191,6 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
                     break;
             }
             break;
-            
-//        case CenterRed:
-//            switch (ThisEvent.EventType) {
-//                case ES_ENTRY:
-//                    printf("Entering CenterRed\n");
-//                    LeftMotor_SetSpeed(TURN_SPEED);
-//                    RightMotor_SetSpeed(-TURN_SPEED);
-//                    ES_Timer_InitTimer(RED_TIMER, CENTER_TURN_TIME);
-//                    break;
-//
-//                case ES_TIMEOUT:
-//                    printf("Center complete -> returning COMPLETE to SortSubHSM\n");
-//                    LeftMotor_SetSpeed(0);
-//                    RightMotor_SetSpeed(0);
-//                    
-//                    nextState = ReForward;
-//                    makeTransition = TRUE;
-//
-//                case ES_EXIT:
-//                    ES_Timer_StopTimer(RED_TIMER);
-//                    break;
-//            }
-//            break;
             
         case ForwardPastLine:
             switch (ThisEvent.EventType) {
@@ -279,12 +250,10 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
                     break;
 
                 case IR_RIGHT_ON_LINE:
-                    printf("Right IR hit ? stopping right motor\n");
+                    printf("AlignRedLeftIR: right IR hit, aligned\n");
                     RightMotor_SetSpeed(0);
-                    
                     returnEvent.EventType = RED_FLOW_DONE;
                     return returnEvent;
-                    break;
 
                 case ES_EXIT:
                     break;
@@ -297,11 +266,10 @@ ES_Event RunRedFlowSubHSM(ES_Event ThisEvent)
                     break;
 
                 case IR_LEFT_ON_LINE:
-                    printf("Left IR hit ? stopping left motor\n");
+                    printf("AlignRedRightIR: left IR hit, aligned\n");
                     LeftMotor_SetSpeed(0);
                     returnEvent.EventType = RED_FLOW_DONE;
                     return returnEvent;
-                    break;
 
                 case ES_EXIT:
                     break;

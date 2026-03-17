@@ -31,26 +31,24 @@ uint8_t CheckColorEvent(void) {
             ColorSensor_SetFilter(COLOR_FILTER_RED);
             for (volatile int i = 0; i < 10000; i++) asm("nop");
             redPeriod = ColorSensor_GetPeriod();
-//            printf("Red Filter Period: %u\n", redPeriod);
             filterState = 1;
             break;
         case 1:
             ColorSensor_SetFilter(COLOR_FILTER_BLUE);
             for (volatile int i = 0; i < 10000; i++) asm("nop");
             bluePeriod = ColorSensor_GetPeriod();
-//            printf("Blue Filter Period: %u\n", bluePeriod);
             filterState = 2;
             break;
         case 2:
             ColorSensor_SetFilter(COLOR_FILTER_GREEN);
             for (volatile int i = 0; i < 10000; i++) asm("nop");
             greenPeriod = ColorSensor_GetPeriod();
-//            printf("Green Filter Period: %u\n", greenPeriod);
             filterState = 0;
             break;
     }
 
-    // Color classification logic
+    // classify by comparing filter periods -- lower period = stronger response
+    // require minimum separation between dominant channel and others to avoid misclassification
     if (redPeriod > NO_BLOCK_THRESH && bluePeriod > NO_BLOCK_THRESH && greenPeriod > NO_BLOCK_THRESH) {
         curEvent = COLOR_NOT_DETECTED;
 

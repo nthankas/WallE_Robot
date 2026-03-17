@@ -27,7 +27,6 @@ uint8_t CheckDist(void) {
 
     ES_Event thisEvent;
     unsigned short pingDist = PingSensor_GetDistance();
-//    printf("Ping Distance: %u \r\n", pingDist);
 
     // Basic low-pass filter
     if (pingDist < MAX_VALID_DISTANCE) {
@@ -87,9 +86,6 @@ uint8_t CheckDist(void) {
         thisEvent.EventParam = lastDist;
         postedEvent = lastEvent;
         initialized = TRUE;
-//        printf("Posting Event: %s with Param: %u\r\n",
-//               EventNames[thisEvent.EventType], thisEvent.EventParam);
-//        PostHSM(thisEvent);
         return TRUE;
     }
 

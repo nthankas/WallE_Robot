@@ -3,17 +3,12 @@
 #include "ES_Framework.h"
 #include "BOARD.h"
 #include "TemplateHSM.h"
-//#include "GrabSubHSM.h"
 #include "SortSubHSM.h"
 #include "RedFlowSubHSM.h"
 #include "BlueFlowSubHSM.h"
 #include "Actuators.h"
 
-#define SPEED 80
-//#define TURN_SPEED 60
-
 #define SORT_TIMER 14
-#define REFORWARD_DELAY 500
 
 
 typedef enum {

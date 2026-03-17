@@ -217,35 +217,21 @@ ES_Event RunRightSubHSM(ES_Event ThisEvent) {
                 case ES_ENTRY:
                     LeftMotor_SetSpeed(-62);
                     RightMotor_SetSpeed(-SLOW);
-//                    irReady = 0;
-//                    ES_Timer_InitTimer(RIGHT_HSM_TIMER, RIGHT_IR_DELAY);
                     break;
 
-//                case ES_TIMEOUT:
-//                    if (ThisEvent.EventParam == RIGHT_HSM_TIMER) {
-//                        irReady = 1;
-//                        printf("ReverseAlign: IR now active\n");
-//                    }
-//                    break;
-
                 case IR_LEFT_ON_LINE:
-//                    if (irReady) {
-                        LeftMotor_SetSpeed(0);
-                        nextState = ReverseAlignLeftIR;
-                        makeTransition = TRUE;
-//                    }
+                    LeftMotor_SetSpeed(0);
+                    nextState = ReverseAlignLeftIR;
+                    makeTransition = TRUE;
                     break;
 
                 case IR_RIGHT_ON_LINE:
-//                    if (irReady) {
-                        RightMotor_SetSpeed(0);
-                        nextState = ReverseAlignRightIR;
-                        makeTransition = TRUE;
-//                    }
+                    RightMotor_SetSpeed(0);
+                    nextState = ReverseAlignRightIR;
+                    makeTransition = TRUE;
                     break;
 
                 case ES_EXIT:
-//                    ES_Timer_StopTimer(RIGHT_HSM_TIMER);
                     break;
             }
             break;
@@ -307,7 +293,7 @@ ES_Event RunRightSubHSM(ES_Event ThisEvent) {
                     break;
                 case ES_TIMEOUT:
                     if (ThisEvent.EventParam == RIGHT_HSM_TIMER) {
-                        printf("\nTIME___OUT color not detected");
+                        printf("BlockGrab: timeout, no color detected\n");
                         detectedColor = COLOR_NOT_DETECTED;
                         nextState = CheckField;
                         makeTransition = TRUE;

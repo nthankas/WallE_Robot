@@ -20,9 +20,6 @@ uint8_t CheckIREvents(void) {
     if (currentLeft != lastLeft) {
         thisEvent.EventType = (currentLeft == DETECTED_LINE) ? IR_LEFT_ON_LINE : IR_LEFT_OFF_LINE;
         thisEvent.EventParam = (currentLeft == DETECTED_LINE) ? 1 : 0;
-//        printf("Posting Event: %s with Param: %u\r\n",
-//        EventNames[thisEvent.EventType], thisEvent.EventParam);
-////        PostIRService(thisEvent);
         PostHSM(thisEvent);
         lastLeft = currentLeft;
         returnVal = TRUE;
@@ -31,9 +28,6 @@ uint8_t CheckIREvents(void) {
     if (currentRight != lastRight) {
         thisEvent.EventType = (currentRight == DETECTED_LINE) ? IR_RIGHT_ON_LINE : IR_RIGHT_OFF_LINE;
         thisEvent.EventParam = (currentRight == DETECTED_LINE) ? 1 : 0;
-//        printf("Posting Event: %s with Param: %u\r\n",
-//        EventNames[thisEvent.EventType], thisEvent.EventParam);
-//        PostIRService(thisEvent);
         PostHSM(thisEvent);
         lastRight = currentRight;
         returnVal = TRUE;

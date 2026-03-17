@@ -25,14 +25,7 @@ static unsigned short nextEdge;
 
 int ColorSensor_Init(void) {
 
-//    T3CON = 0x0;
-//    T3CONbits.TCKPS = 0b110;
-//    PR3 = 0xFFFF;
-//    TMR3 = 0;
-//    T3CONbits.ON = 1;
-    
-    
-
+    // input capture 3 for color sensor frequency measurement
     IC3CON = 0;
     IC3CONbits.ICTMR = 0;
     IC3CONbits.ICI = 0;

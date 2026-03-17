@@ -1,5 +1,5 @@
 //======================= IRService.c =======================
-#include "ColorService.h"
+#include "IRService.h"
 #include "ES_Configure.h"
 #include "ES_Framework.h"
 #include "IRSensor.h"
@@ -9,11 +9,9 @@
 #include <stdio.h>
 #include <BOARD.h>
 
-
 #define IR_TIMER 2
 
 static uint8_t MyPriority;
-
 
 uint8_t InitIRService(uint8_t Priority) {
     IRSensor_Init();
@@ -41,6 +39,4 @@ ES_Event RunIRService(ES_Event ThisEvent) {
 
     return ReturnEvent;
 }
-
-
 

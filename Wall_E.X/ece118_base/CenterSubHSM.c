@@ -57,7 +57,6 @@ uint8_t InitCenterSubHSM(void)
     ES_Event returnEvent;
 
     CurrentState = InitPSubCenterState;
-    //printf("\nInitCenterSubHSM: State set to %s\n", StateNames[CurrentState]);
     returnEvent = RunCenterSubHSM(INIT_EVENT);
     if (returnEvent.EventType == ES_NO_EVENT) {
         return TRUE;
@@ -72,7 +71,6 @@ ES_Event RunCenterSubHSM(ES_Event ThisEvent)
     ES_Event returnEvent = { .EventType = ES_NO_EVENT }; // Add this line
 
     ES_Tattle();
-    //printf("RunCenterSubHSM(%s[%X]);\n", StateNames[CurrentState], ThisEvent.EventType);
 
     switch (CurrentState) {
         case InitPSubCenterState:
@@ -199,7 +197,7 @@ ES_Event RunCenterSubHSM(ES_Event ThisEvent)
                 
                 case ES_TIMEOUT:
                     if (ThisEvent.EventParam == CENTER_IR_TIMER) {
-                        printf("BlockGrab: timeout ? no color detected\n");
+                            printf("BlockGrab: timeout, no color detected\n");
                         detectedColor = COLOR_NOT_DETECTED; // FOR DEMO
                         nextState = CheckField;
                         makeTransition = TRUE;
@@ -308,7 +306,6 @@ ES_Event RunCenterSubHSM(ES_Event ThisEvent)
                     RightMotor_SetSpeed(0);
                     returnEvent.EventType = CENTER_DONE;
                     return returnEvent;
-                    break;
 
                 case ES_EXIT:
                     break;
@@ -326,7 +323,6 @@ ES_Event RunCenterSubHSM(ES_Event ThisEvent)
                     LeftMotor_SetSpeed(0);
                     returnEvent.EventType = CENTER_DONE;
                     return returnEvent;
-                    break;
 
                 case ES_EXIT:
                     break;
