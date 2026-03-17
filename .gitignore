@@ -1,0 +1,17 @@
+# MPLAB X build artifacts
+build/
+dist/
+debug/
+.generated_files/
+nbproject/private/
+
+# IDE logs
+*.log
+*.log.inx
+
+# Object files
+*.o
+*.d
+*.elf
+*.hex
+*.map
